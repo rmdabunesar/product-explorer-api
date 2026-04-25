@@ -1,26 +1,26 @@
 /**
  * products.js
  * Handles the product list page: fetching, rendering, pagination, and search.
- * All configuration is injected by wp_localize_script via `pcupData`.
+ * All configuration is injected by wp_localize_script via `peaData`.
  */
 
 ( function () {
     'use strict';
 
     /* ── Config from PHP ───────────────────────────────────────────────────── */
-    const API_BASE       = pcupData.apiBase;          // https://dummyjson.com/products
-    const SEARCH_BASE    = pcupData.searchApiBase;    // https://dummyjson.com/products/search
-    const BASE_URL       = pcupData.baseUrl;          // e.g. https://site.com/products
-    const PER_PAGE       = parseInt( pcupData.perPage, 10 );  // 12
-    let   currentPage    = parseInt( pcupData.currentPage, 10 );
-    let   searchQuery    = pcupData.searchQuery || '';
+    const API_BASE       = peaData.apiBase;          // https://dummyjson.com/products
+    const SEARCH_BASE    = peaData.searchApiBase;    // https://dummyjson.com/products/search
+    const BASE_URL       = peaData.baseUrl;          // e.g. https://site.com/products
+    const PER_PAGE       = parseInt( peaData.perPage, 10 );  // 12
+    let   currentPage    = parseInt( peaData.currentPage, 10 );
+    let   searchQuery    = peaData.searchQuery || '';
 
     /* ── DOM refs ──────────────────────────────────────────────────────────── */
-    const grid       = document.getElementById( 'pcup-grid' );
-    const pagination = document.getElementById( 'pcup-pagination' );
-    const statusEl   = document.getElementById( 'pcup-status' );
+    const grid       = document.getElementById( 'pea-grid' );
+    const pagination = document.getElementById( 'pea-pagination' );
+    const statusEl   = document.getElementById( 'pea-status' );
     const searchInput = document.getElementById( 'product-search' );
-    const searchBtn  = document.getElementById( 'pcup-search-btn' );
+    const searchBtn  = document.getElementById( 'pea-search-btn' );
 
     /* ── State ─────────────────────────────────────────────────────────────── */
     let totalProducts = 0;
@@ -29,7 +29,7 @@
     function setStatus( html, isError ) {
         statusEl.innerHTML        = html;
         statusEl.style.display    = html ? 'flex' : 'none';
-        statusEl.classList.toggle( 'pcup-status--error', !! isError );
+        statusEl.classList.toggle( 'pea-status--error', !! isError );
     }
 
     function buildProductUrl( page, productId ) {
@@ -48,7 +48,7 @@
     function fetchProducts( page, query ) {
         grid.innerHTML       = '';
         pagination.innerHTML = '';
-        setStatus( '<div class="pcup-spinner"></div>' );
+        setStatus( '<div class="pea-spinner"></div>' );
 
         var skip = ( page - 1 ) * PER_PAGE;
         var url;
@@ -84,7 +84,7 @@
     /* ── Render grid ───────────────────────────────────────────────────────── */
     function renderGrid( products, page ) {
         if ( ! products.length ) {
-            grid.innerHTML = '<p class="pcup-empty">No products found.</p>';
+            grid.innerHTML = '<p class="pea-empty">No products found.</p>';
             return;
         }
 
@@ -92,32 +92,32 @@
 
         products.forEach( function ( product ) {
             var card       = document.createElement( 'article' );
-            card.className = 'pcup-card';
+            card.className = 'pea-card';
 
             var rating     = product.rating ? product.rating.toFixed( 1 ) : '—';
             var stars      = buildStars( product.rating );
             var discount   = product.discountPercentage
-                ? '<span class="pcup-badge">-' + Math.round( product.discountPercentage ) + '%</span>'
+                ? '<span class="pea-badge">-' + Math.round( product.discountPercentage ) + '%</span>'
                 : '';
 
             card.innerHTML =
-                '<a href="' + buildProductUrl( page, product.id ) + '" class="pcup-card__link" aria-label="View ' + escHtml( product.title ) + '">' +
-                    '<div class="pcup-card__img-wrap">' +
+                '<a href="' + buildProductUrl( page, product.id ) + '" class="pea-card__link" aria-label="View ' + escHtml( product.title ) + '">' +
+                    '<div class="pea-card__img-wrap">' +
                         ( product.thumbnail
-                            ? '<img src="' + escHtml( product.thumbnail ) + '" alt="' + escHtml( product.title ) + '" class="pcup-card__img" loading="lazy" />'
-                            : '<div class="pcup-card__img-placeholder"></div>' ) +
+                            ? '<img src="' + escHtml( product.thumbnail ) + '" alt="' + escHtml( product.title ) + '" class="pea-card__img" loading="lazy" />'
+                            : '<div class="pea-card__img-placeholder"></div>' ) +
                         discount +
                     '</div>' +
-                    '<div class="pcup-card__body">' +
-                        '<span class="pcup-card__cat">' + escHtml( product.category || '' ) + '</span>' +
-                        '<h2 class="pcup-card__title">' + escHtml( product.title ) + '</h2>' +
-                        '<div class="pcup-card__rating">' +
-                            '<span class="pcup-stars" aria-label="Rating: ' + rating + ' out of 5">' + stars + '</span>' +
-                            '<span class="pcup-rating-val">(' + rating + ')</span>' +
+                    '<div class="pea-card__body">' +
+                        '<span class="pea-card__cat">' + escHtml( product.category || '' ) + '</span>' +
+                        '<h2 class="pea-card__title">' + escHtml( product.title ) + '</h2>' +
+                        '<div class="pea-card__rating">' +
+                            '<span class="pea-stars" aria-label="Rating: ' + rating + ' out of 5">' + stars + '</span>' +
+                            '<span class="pea-rating-val">(' + rating + ')</span>' +
                         '</div>' +
-                        '<div class="pcup-card__footer">' +
-                            '<span class="pcup-card__price">$' + Number( product.price ).toFixed( 2 ) + '</span>' +
-                            '<span class="pcup-card__cta">View →</span>' +
+                        '<div class="pea-card__footer">' +
+                            '<span class="pea-card__price">$' + Number( product.price ).toFixed( 2 ) + '</span>' +
+                            '<span class="pea-card__cta">View →</span>' +
                         '</div>' +
                     '</div>' +
                 '</a>';
@@ -133,11 +133,11 @@
         var html  = '';
         for ( var i = 1; i <= 5; i++ ) {
             if ( i <= score ) {
-                html += '<svg class="pcup-star pcup-star--full" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>';
+                html += '<svg class="pea-star pea-star--full" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>';
             } else if ( i - 0.5 <= score ) {
-                html += '<svg class="pcup-star pcup-star--half" viewBox="0 0 20 20"><defs><clipPath id="half' + i + '"><rect x="0" y="0" width="10" height="20"/></clipPath></defs><polygon class="pcup-star__empty" points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/><polygon class="pcup-star__fill" clip-path="url(#half' + i + ')" points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>';
+                html += '<svg class="pea-star pea-star--half" viewBox="0 0 20 20"><defs><clipPath id="half' + i + '"><rect x="0" y="0" width="10" height="20"/></clipPath></defs><polygon class="pea-star__empty" points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/><polygon class="pea-star__fill" clip-path="url(#half' + i + ')" points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>';
             } else {
-                html += '<svg class="pcup-star pcup-star--empty" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>';
+                html += '<svg class="pea-star pea-star--empty" viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"/></svg>';
             }
         }
         return html;
@@ -153,28 +153,28 @@
         var pages = buildPageRange( current, total );
         var html  = '';
 
-        html += '<button class="pcup-page-btn pcup-page-btn--nav" ' +
+        html += '<button class="pea-page-btn pea-page-btn--nav" ' +
                     ( current <= 1 ? 'disabled' : '' ) +
                     ' data-page="' + ( current - 1 ) + '" aria-label="Previous page">&#8592; Prev</button>';
 
         pages.forEach( function ( p ) {
             if ( p === '...' ) {
-                html += '<span class="pcup-page-ellipsis">…</span>';
+                html += '<span class="pea-page-ellipsis">…</span>';
             } else {
-                var active = p === current ? ' pcup-page-btn--active' : '';
+                var active = p === current ? ' pea-page-btn--active' : '';
                 var aria   = p === current ? ' aria-current="page"' : '';
-                html += '<button class="pcup-page-btn' + active + '"' + aria +
+                html += '<button class="pea-page-btn' + active + '"' + aria +
                             ' data-page="' + p + '">' + p + '</button>';
             }
         } );
 
-        html += '<button class="pcup-page-btn pcup-page-btn--nav" ' +
+        html += '<button class="pea-page-btn pea-page-btn--nav" ' +
                     ( current >= total ? 'disabled' : '' ) +
                     ' data-page="' + ( current + 1 ) + '" aria-label="Next page">Next &#8594;</button>';
 
         pagination.innerHTML = html;
 
-        pagination.querySelectorAll( '.pcup-page-btn:not([disabled])' ).forEach( function ( btn ) {
+        pagination.querySelectorAll( '.pea-page-btn:not([disabled])' ).forEach( function ( btn ) {
             btn.addEventListener( 'click', function () {
                 var page = parseInt( btn.dataset.page, 10 );
                 navigateToPage( page );
