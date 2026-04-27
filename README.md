@@ -40,17 +40,6 @@ A complete guide to making HTTP requests in WordPress using `wp_remote_request()
 
 ---
 
-## Table of Contents
-
-- [GET](#get)
-- [POST](#post)
-- [PUT](#put)
-- [PATCH](#patch)
-- [DELETE](#delete)
-- [Quick Reference](#quick-reference)
-
----
-
 ## GET
 
 Fetch / read data from an API.
