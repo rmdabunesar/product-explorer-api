@@ -128,7 +128,7 @@
             '<div class="pea-single">' +
 
                 '<div class="pea-single__back-bar">' +
-                    '<a href="' + escHtml( BACK_URL ) + '" class="pea-back-btn">&#8592; Back to Products</a>' +
+                    '<a href="' + escHtml( BACK_URL ) + '" id="pea-back-btn" class="pea-back-btn">&#8592; Back to Products</a>' +
                 '</div>' +
 
                 '<div class="pea-single__layout">' +

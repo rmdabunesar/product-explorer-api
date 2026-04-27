@@ -12,6 +12,28 @@
  * Text Domain:       product-explorer-api
  */
 
+
+/**
+ * Show current template file in WordPress admin top bar
+ */
+add_action( 'admin_bar_menu', 'pea_show_template_in_admin_bar', 100 );
+
+function pea_show_template_in_admin_bar( $wp_admin_bar ) {
+
+    if ( is_admin() ) {
+        return;
+    }
+
+    global $template;
+
+    $wp_admin_bar->add_node( array(
+        'id'    => 'pea-template-file',
+        'title' => 'Template: ' . basename( $template ),
+        'href'  => false,
+    ) );
+}
+
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -24,6 +46,7 @@ define( 'PEA_PLUGIN_URL',  plugin_dir_url( __FILE__ ) );
 // ── Core includes ──────────────────────────────────────────────────────────────
 require_once PEA_PLUGIN_DIR . 'includes/rewrite.php';
 require_once PEA_PLUGIN_DIR . 'includes/template.php';
+require_once PEA_PLUGIN_DIR . 'includes/admin.php';
 
 // ── Activation / Deactivation hooks ───────────────────────────────────────────
 register_activation_hook( __FILE__, 'pea_activate' );
