@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $search_query = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '';
 
-wp_head();
+get_head();
 ?>
 <div class="pea-wrap">
     <div class="pea-header">
@@ -29,4 +29,4 @@ wp_head();
 
     <nav id="pea-pagination" class="pea-pagination" aria-label="Product pagination"></nav>
 </div>
-<?php wp_footer(); ?>
+<?php get_footer(); ?>
