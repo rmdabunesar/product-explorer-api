@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-wp_head();
+get_head();
 ?>
 <div class="pea-wrap">
     <div id="pea-single-container" class="pea-single-container">
@@ -9,4 +9,4 @@ wp_head();
         </div>
     </div>
 </div>
-<?php wp_footer(); ?>
+<?php get_footer(); ?>
