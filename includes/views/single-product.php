@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-get_head();
+get_header();
 ?>
 <div class="pea-wrap">
     <div id="pea-single-container" class="pea-single-container">
