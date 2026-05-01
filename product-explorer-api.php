@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name:       Product Explorer API
- * Plugin URI:        https://example.com/products-custom-url-plugin
+ * Plugin URI:        https://github.com/rmdabunesar/product-explorer-api
  * Description:       Displays products from dummyjson.com with custom URL structure, pagination, search, and single product pages.
  * Version:           1.0.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Abu Nesar
+ * Author URI:        https://github.com/rmdabunesar
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       product-explorer-api
